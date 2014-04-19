@@ -15,6 +15,7 @@
 USING_NS_CC;
 class GameScene:public cocos2d::Layer{
 private:
+	SpriteBatchNode *batchNode;
 	Sprite* landSprite1;
 	Sprite* landSprite2;
 	float adjustmentBg;

@@ -10,7 +10,7 @@ private:
 	bool isStartGame;
 public:
 	static MiMiSprite *create();
-	virtual bool initWithFile(const std::string& filename);
+	virtual bool initWithSpriteFrameName(const std::string& filename);
 	virtual void update(float dt);
 	void startGame();
 	void endGame();

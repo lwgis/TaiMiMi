@@ -3,7 +3,7 @@
 using namespace CocosDenshion;
 MiMiSprite * MiMiSprite::create(){
 	 MiMiSprite *sprite = new MiMiSprite();
-	 if (sprite&& sprite->initWithFile("mimi.png"))
+	 if (sprite&& sprite->initWithSpriteFrameName("mimi.png"))
 	{
 		sprite->autorelease();
 		return sprite;
@@ -11,8 +11,8 @@ MiMiSprite * MiMiSprite::create(){
 	CC_SAFE_DELETE(sprite);
 	return nullptr;
 }
-bool MiMiSprite::initWithFile(const std::string& filename){
-	if (Sprite::initWithFile(filename))
+bool MiMiSprite::initWithSpriteFrameName(const std::string& filename){
+	if (Sprite::initWithSpriteFrameName(filename))
 	{
 		this->isStartGame=false;
 		return true;

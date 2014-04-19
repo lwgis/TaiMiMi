@@ -16,23 +16,28 @@ bool GameScene::init(){
 	if (!cocos2d::Layer::init()) {
 		return false;
 	}
+	SpriteFrameCache::getInstance()->removeSpriteFrames();
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("gameScene.plist");
+	batchNode=SpriteBatchNode::create("gameScene.pvr.ccz");
+	addChild(batchNode);
 	Size winSize=Director::getInstance()->getVisibleSize();
-	auto bgSprite=Sprite::create("backgroud.png");
+	auto bgSprite=Sprite::createWithSpriteFrameName("backgroud.png");//::create("backgroud.png");
 	bgSprite->setAnchorPoint(Point(0,0));
-	this->addChild(bgSprite);
+	batchNode->addChild(bgSprite);
 	//地面
-	this->landSprite1=Sprite::create("land.png");
-	this->landSprite2=Sprite::create("land.png");
+	this->landSprite1=Sprite::createWithSpriteFrameName("land.png");
+	this->landSprite2=Sprite::createWithSpriteFrameName("land.png");
 
 	landSprite1->setAnchorPoint(Point(0,0));
 	landSprite2->setAnchorPoint(Point(0,0));
 	landSprite2->setPosition(Point(winSize.width,0));
 //    bgSprite->setPosition(Point(winSize.width/2,winSize.height/2));
-	this->addChild(this->landSprite1,2);
-	this->addChild(this->landSprite2,2);
+	batchNode->addChild(this->landSprite1,2);
+	batchNode->addChild(this->landSprite2,2);
 	this->mimiSprite=MiMiSprite::create();
 	mimiSprite->setPosition( winSize.width*20/64,winSize.height/2);
 	//mimiSprite->startGame();
+	batchNode->addChild(mimiSprite,2);
 	auto labelStart =LabelTTF::create("点击屏幕抬我","Marker Felt",58);//,Size::ZERO,TextHAlignment::CENTER,TextVAlignment::CENTER);
 	labelStart->setPosition(winSize.width/2,winSize.height/3);
 
@@ -50,8 +55,6 @@ bool GameScene::init(){
 		return true;
 	};
 dispatcher->addEventListenerWithSceneGraphPriority(myListener,this);
-
-	this->addChild(mimiSprite,2);
 	this->scheduleUpdate();
 	return true;
 }
@@ -115,7 +118,7 @@ void GameScene::endGame(){
 			strScore=this->Score;
 		}
 		Size winSize=Director::getInstance()->getVisibleSize();
-		auto highScore=Sprite::create("highScore.png");
+		auto highScore=Sprite::createWithSpriteFrameName("highScore.png");
 		highScore->setPosition(Point(winSize.width/2,winSize.height*2/3));
 		auto scoreLable=LabelAtlas::create(String::createWithFormat("%d",this->Score)->getCString(),"score.png", 100, 128, 48);
 		scoreLable->setAnchorPoint(Point(0.5, 0.5));
@@ -132,7 +135,7 @@ void GameScene::endGame(){
 		auto scaleIn=ScaleTo::create(0.3f, 1.f);
 		auto sequence=Sequence::create(scaleOut,scaleIn, nullptr);
 		highScore->runAction(sequence);
-		this->addChild(highScore);
+		this->addChild(highScore,2);
 		auto startButton=MenuItemImage::create("startButton.png", "startButton.png",CC_CALLBACK_1(GameScene::reStartGame, this));
 		auto menu=Menu::create(startButton, NULL);
 		menu->setPosition(winSize.width/2, 300);
@@ -159,12 +162,12 @@ void GameScene::createPipe(float dt){
 	top->setPosition(Point(winSize.width+top->getBoundingBox().size.width,y+160));
 	top->startGame();
 	this->allPipeSprite.pushBack(top);
-	this->addChild(top);
+	batchNode->addChild(top);
 	PipeSprite *buttom=PipeSprite::create(ButtomPipe);
 	buttom->setPosition(Point(winSize.width+top->getBoundingBox().size.width,y-160));
 	buttom->startGame();
 	this->allPipeSprite.pushBack(buttom);
-	this->addChild(buttom);
+	batchNode->addChild(buttom);
 }
 void  GameScene::collisionDetection(float dt){
 	if (this->mimiSprite->getPositionY()<147)
@@ -186,7 +189,7 @@ void  GameScene::collisionDetection(float dt){
 		}
 		//降低难度
 		Rect rect=this->mimiSprite->getBoundingBox();
-		rect.setRect(rect.origin.x,rect.origin.y,rect.size.width*0.8,rect.size.height*0.8);
+		rect.setRect(rect.origin.x+9,rect.origin.y+9,rect.size.width*0.8,rect.size.height*0.8);
 		if (sprite->getBoundingBox().intersectsRect(rect))
 		{
 			SimpleAudioEngine::getInstance()->playEffect("dead.wav",false,1);

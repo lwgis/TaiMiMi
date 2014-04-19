@@ -1,22 +1,22 @@
 #include "cocos2d.h"
 USING_NS_CC;
 typedef  enum {
-    TopPipe=0,
-    ButtomPipe=1
+	TopPipe=0,
+	ButtomPipe=1
 }pipeType;
 class PipeSprite:public Sprite{
 private:
-    pipeType type;
+	pipeType type;
 public:
-    bool isScore;
+	bool isScore;
 	static PipeSprite *create(pipeType type);
-	virtual bool initWithFile(const std::string& filename);
+	virtual bool initWithSpriteFrameName(const std::string& filename);
 	virtual void update(float dt);
 	void startGame();
 	void endGame();
-    bool getIsScore();
-    pipeType getTpye();
-    void setTpye(pipeType type);
+	bool getIsScore();
+	pipeType getTpye();
+	void setTpye(pipeType type);
 
 };
 

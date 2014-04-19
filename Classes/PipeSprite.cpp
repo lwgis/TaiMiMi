@@ -1,10 +1,10 @@
 #include "PipeSprite.h"
 
-bool PipeSprite::initWithFile(const std::string& filename){
-	if (Sprite::initWithFile(filename))
+bool PipeSprite::initWithSpriteFrameName(const std::string& filename){
+	if (Sprite::initWithSpriteFrameName(filename))
 	{
 		//this->isStartGame=false;
-        this->isScore=false;
+		this->isScore=false;
 		return true;
 	}
 	return false;
@@ -14,16 +14,16 @@ bool PipeSprite::initWithFile(const std::string& filename){
 	PipeSprite *pSprite=new PipeSprite();
 	if (type==TopPipe)
 	{
-		pSprite->initWithFile("topPipe.png");
+		pSprite->initWithSpriteFrameName("topPipe.png");
 		pSprite->setAnchorPoint(Point(1,0));
 	}
 	else
 	{
-		pSprite->initWithFile("buttomPipe.png");
+		pSprite->initWithSpriteFrameName("buttomPipe.png");
 		pSprite->setAnchorPoint(Point(1,1));
 	}
 	pSprite->autorelease();
-     pSprite->setTpye(type);
+	 pSprite->setTpye(type);
 	//CC_SAFE_DELETE(pSprite);
 	return pSprite;
  }
@@ -31,8 +31,8 @@ bool PipeSprite::initWithFile(const std::string& filename){
  void PipeSprite::update(float dt){
 	 if (this->getPositionX()<0) {
 		 this->removeFromParentAndCleanup(true);
-        return;
-    }
+		return;
+	}
 	 this->setPosition(Point(this->getPositionX()-4, this->getPositionY()));
 
  }
@@ -42,10 +42,10 @@ bool PipeSprite::initWithFile(const std::string& filename){
 	 this->unscheduleUpdate();
  }
 pipeType PipeSprite::getTpye(){
-    return this->type;
+	return this->type;
 }
 void PipeSprite::setTpye(pipeType type){
-    this->type=type;
+	this->type=type;
 }
 
 
